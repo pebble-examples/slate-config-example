@@ -30,18 +30,6 @@
       <div class='item-container-header'>Customizability</div>
       <div class='item-container-content'>
         <label class='item'>
-          Animated Icons
-          <input id='animated_checkbox' type='checkbox' class='item-toggle'>
-        </label>
-      </div>
-      <div class='item-container-footer'>
-        Whether to use animated icons or not.
-      </div>
-    </div>
-
-    <div class='item-container'>
-      <div class='item-container-content'>
-        <label class='item'>
           Background Color
           <input id='background_color_picker' type='text' class='item-color item-color-sunny' value='#000000'>
         </label>
@@ -72,12 +60,10 @@
   </body>
   <script>
   function getConfigData() {
-    var animatedCheckbox = document.getElementById('animated_checkbox');
     var backgroundColorPicker = document.getElementById('background_color_picker');
     var highContrastCheckbox = document.getElementById('high_contrast_checkbox');
  
     var options = {
-      'animated': animatedCheckbox.checked,
       'background_color': backgroundColorPicker.value,
       'high_contrast': highContrastCheckbox.checked
     };
