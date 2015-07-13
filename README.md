@@ -1,4 +1,4 @@
-# design-guides-config-example
+# design-guides-slate-config
 
 Example app demonstrating the use of the 
 [Slate CSS library](https://github.com/pebble/slate) to create a good-looking
