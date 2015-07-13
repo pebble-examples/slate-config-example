@@ -15,14 +15,18 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   var backgroundColor = configData['background_color'];
 
+  var dict = {};
+  if(configData['high_contrast'] === true) {
+    dict['KEY_HIGH_CONTRAST'] = configData['high_contrast'];
+  } else {
+    dict['KEY_COLOR_RED'] = parseInt(backgroundColor.substring(2, 4), 16);
+    dict['KEY_COLOR_GREEN'] = parseInt(backgroundColor.substring(4, 6), 16);
+    dict['KEY_COLOR_BLUE'] = parseInt(backgroundColor.substring(6), 16);
+  }
+
   // Send to watchapp
-  Pebble.sendAppMessage({
-    'KEY_COLOR_RED': parseInt(backgroundColor.substring(2, 4), 16),
-    'KEY_COLOR_GREEN': parseInt(backgroundColor.substring(4, 6), 16),
-    'KEY_COLOR_BLUE': parseInt(backgroundColor.substring(6), 16),
-    'KEY_HIGH_CONTRAST': configData['high_contrast']
-  }, function() {
-    console.log('Send successful!');
+  Pebble.sendAppMessage(dict, function() {
+    console.log('Send successful: ' + JSON.stringify(dict));
   }, function() {
     console.log('Send failed!');
   });
