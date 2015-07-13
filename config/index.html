@@ -67,7 +67,11 @@
       'background_color': backgroundColorPicker.value,
       'high_contrast': highContrastCheckbox.checked
     };
-     
+
+    // Save for next launch
+    localStorage['background_color'] = options['background_color'];
+    localStorage['high_contrast'] = options['high_contrast'];
+
     console.log('Got options: ' + JSON.stringify(options));
     return options;
   }
@@ -92,5 +96,16 @@
     var return_to = getQueryParam('return_to', 'pebblejs://close#');
     document.location = return_to + encodeURIComponent(JSON.stringify(getConfigData()));
   });
+
+  (function() {
+    var backgroundColorPicker = document.getElementById('background_color_picker');
+    var highContrastCheckbox = document.getElementById('high_contrast_checkbox');
+
+    // Load any previously saved configuration, if available
+    if(localStorage['high_contrast']) {
+      highContrastCheckbox.checked = localStorage['high_contrast'];
+      backgroundColorPicker.value = localStorage['background_color'];
+    }
+  })();
   </script>
 </html>
