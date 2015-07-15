@@ -1,7 +1,7 @@
-# design-guides-slate-config
+# slate-config-example
 
 Example app demonstrating the use of the 
-[Slate CSS library](https://github.com/pebble/slate) to create a good-looking
+[Slate front-end framework](https://github.com/pebble/slate) to create a good-looking
 [app configuration](http://developer.getpebble.com/guides/pebble-apps/pebblekit-js/app-configuration/) 
 page. 
 
