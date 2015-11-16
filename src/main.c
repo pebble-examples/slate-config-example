@@ -9,9 +9,9 @@ static Window *s_main_window;
 static TextLayer *s_text_layer;
 
 static bool gcolor_is_dark(GColor color) {
-#ifdef PBL_SDK_2
-  return color == GColorBlack;
-#elif PBL_SDK_3
+#if defined(PBL_BW)
+  return gcolor_equal(color, GColorBlack);
+#elif defined(PBL_COLOR)
   return color.r < 2 && color.g < 2 && color.b < 2;
 #endif
 }
@@ -36,10 +36,10 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   Tuple *color_blue_t = dict_find(iter, KEY_COLOR_BLUE);
   if(color_red_t && color_green_t && color_blue_t) {
     // Apply the color if available
-#ifdef PBL_SDK_2
+#if defined(PBL_BW)
     window_set_background_color(s_main_window, GColorWhite);
     text_layer_set_text_color(s_text_layer, GColorBlack);
-#elif PBL_SDK_3 
+#elif defined(PBL_COLOR )
     int red = color_red_t->value->int32;
     int green = color_green_t->value->int32;
     int blue = color_blue_t->value->int32;
@@ -51,7 +51,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
     GColor bg_color = GColorFromRGB(red, green, blue);
     window_set_background_color(s_main_window, bg_color);
-    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);    
+    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);
 #endif
   }
 }
@@ -67,15 +67,15 @@ static void window_load(Window *window) {
   text_layer_set_background_color(s_text_layer, GColorClear);
   layer_add_child(window_layer, text_layer_get_layer(s_text_layer));
 
-  // Read saved config 
+  // Read saved config
   if(persist_read_bool(KEY_HIGH_CONTRAST)) {
     // Apply high contrast mode
     window_set_background_color(s_main_window, GColorBlack);
     text_layer_set_text_color(s_text_layer, GColorWhite);
   } else {
-#ifdef PBL_SDK_2
+#if defined(PBL_BW)
     // Not available, use normal colors
-#elif PBL_SDK_3
+#elif defined(PBL_COLOR)
     // Use background color setting
     int red = persist_read_int(KEY_COLOR_RED);
     int green = persist_read_int(KEY_COLOR_GREEN);
@@ -83,7 +83,7 @@ static void window_load(Window *window) {
 
     GColor bg_color = GColorFromRGB(red, green, blue);
     window_set_background_color(s_main_window, bg_color);
-    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);    
+    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);
 #endif
   }
 }
@@ -94,9 +94,6 @@ static void window_unload(Window *window) {
 
 static void init() {
   s_main_window = window_create();
-#ifdef PBL_SDK_2
-  window_set_fullscreen(s_main_window, true);
-#endif
   window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload,
