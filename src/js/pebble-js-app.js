@@ -17,7 +17,7 @@ Pebble.addEventListener('webviewclosed', function(e) {
 
   var dict = {};
   if(configData['high_contrast'] === true) {
-    dict['KEY_HIGH_CONTRAST'] = configData['high_contrast'];
+    dict['KEY_HIGH_CONTRAST'] = configData['high_contrast'] ? 1 : 0;  // Send a boolean as an integer
   } else {
     dict['KEY_COLOR_RED'] = parseInt(backgroundColor.substring(2, 4), 16);
     dict['KEY_COLOR_GREEN'] = parseInt(backgroundColor.substring(4, 6), 16);

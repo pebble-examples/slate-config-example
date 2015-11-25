@@ -19,7 +19,7 @@ static bool gcolor_is_dark(GColor color) {
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   // High contrast selected?
   Tuple *high_contrast_t = dict_find(iter, KEY_HIGH_CONTRAST);
-  if(high_contrast_t && high_contrast_t->value->int32 > 0) {
+  if(high_contrast_t && high_contrast_t->value->int8 > 0) {  // Read boolean as an integer
     // Change color scheme
     window_set_background_color(s_main_window, GColorBlack);
     text_layer_set_text_color(s_text_layer, GColorWhite);
@@ -39,7 +39,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 #ifdef PBL_SDK_2
     window_set_background_color(s_main_window, GColorWhite);
     text_layer_set_text_color(s_text_layer, GColorBlack);
-#elif PBL_SDK_3 
+#elif PBL_SDK_3
     int red = color_red_t->value->int32;
     int green = color_green_t->value->int32;
     int blue = color_blue_t->value->int32;
@@ -51,7 +51,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
     GColor bg_color = GColorFromRGB(red, green, blue);
     window_set_background_color(s_main_window, bg_color);
-    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);    
+    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);
 #endif
   }
 }
@@ -67,7 +67,7 @@ static void window_load(Window *window) {
   text_layer_set_background_color(s_text_layer, GColorClear);
   layer_add_child(window_layer, text_layer_get_layer(s_text_layer));
 
-  // Read saved config 
+  // Read saved config
   if(persist_read_bool(KEY_HIGH_CONTRAST)) {
     // Apply high contrast mode
     window_set_background_color(s_main_window, GColorBlack);
@@ -83,7 +83,7 @@ static void window_load(Window *window) {
 
     GColor bg_color = GColorFromRGB(red, green, blue);
     window_set_background_color(s_main_window, bg_color);
-    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);    
+    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);
 #endif
   }
 }
