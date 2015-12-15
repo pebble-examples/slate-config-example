@@ -39,7 +39,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 #if defined(PBL_BW)
     window_set_background_color(s_main_window, GColorWhite);
     text_layer_set_text_color(s_text_layer, GColorBlack);
-#elif defined(PBL_COLOR )
+#elif defined(PBL_COLOR)
     int red = color_red_t->value->int32;
     int green = color_green_t->value->int32;
     int blue = color_blue_t->value->int32;
