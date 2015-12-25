@@ -8,14 +8,6 @@
 static Window *s_main_window;
 static TextLayer *s_text_layer;
 
-static bool gcolor_is_dark(GColor color) {
-#if defined(PBL_BW)
-  return gcolor_equal(color, GColorBlack);
-#elif defined(PBL_COLOR)
-  return color.r < 2 && color.g < 2 && color.b < 2;
-#endif
-}
-
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
   // High contrast selected?
   Tuple *high_contrast_t = dict_find(iter, KEY_HIGH_CONTRAST);
@@ -51,7 +43,7 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
     GColor bg_color = GColorFromRGB(red, green, blue);
     window_set_background_color(s_main_window, bg_color);
-    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);
+    text_layer_set_text_color(s_text_layer, gcolor_legible_over(bg_color));
 #endif
   }
 }
@@ -83,7 +75,7 @@ static void window_load(Window *window) {
 
     GColor bg_color = GColorFromRGB(red, green, blue);
     window_set_background_color(s_main_window, bg_color);
-    text_layer_set_text_color(s_text_layer, gcolor_is_dark(bg_color) ? GColorWhite : GColorBlack);
+    text_layer_set_text_color(s_text_layer, gcolor_legible_over(bg_color));
 #endif
   }
 }
